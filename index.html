@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yashraj Tyres & Alloy Wheels — Premium Performance</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --deep: #0f0f0f;
+    --carbon: #1a1a1a;
+    --steel: #2a2a2a;
+    --chrome: #c8c8c8;
+    --silver: #e8e8e8;
+    --gold: #d4a843;
+    --gold-light: #f0c96a;
+    --red: #c0392b;
+    --white: #f5f5f5;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(212,168,67,0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, width 0.2s, height 0.2s;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.98), transparent);
+    border-bottom: 1px solid rgba(212,168,67,0.08);
+  }
+  .nav-logo {
+    display: flex; flex-direction: column; line-height: 1;
+  }
+  .nav-logo .brand { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--white); letter-spacing: 3px; }
+  .nav-logo .sub { font-size: 9px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; font-weight: 500; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--chrome); text-decoration: none; font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+    background: var(--gold); transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--gold); color: var(--black);
+    padding: 10px 28px; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 700; border: none;
+    cursor: pointer; transition: background 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* HERO */
+  .hero {
+    height: 100vh; position: relative; overflow: hidden;
+    display: flex; align-items: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(212,168,67,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(192,57,43,0.08) 0%, transparent 50%),
+      linear-gradient(135deg, #080808 0%, #111 50%, #080808 100%);
+  }
+
+  /* Animated wheel SVG background */
+  .wheel-bg {
+    position: absolute; right: -100px; top: 50%; transform: translateY(-50%);
+    width: 700px; height: 700px; opacity: 0.12;
+    animation: spinSlow 40s linear infinite;
+  }
+  @keyframes spinSlow { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(360deg); } }
+
+  /* Decorative lines */
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; width: 1px; height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(212,168,67,0.15), transparent);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 60px; max-width: 700px;
+  }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 40px; height: 1px; background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 10vw, 130px);
+    line-height: 0.92;
+    letter-spacing: 2px;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s ease forwards;
+  }
+  .hero-title span { color: var(--gold); }
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 15px; line-height: 1.7;
+    color: var(--chrome); font-weight: 300; max-width: 420px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s ease forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 20px; align-items: center; margin-top: 48px;
+    opacity: 0; animation: fadeUp 0.8s 0.8s ease forwards;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 16px 42px; font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; font-weight: 700; border: none;
+    cursor: pointer; transition: all 0.3s; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.2); color: var(--white);
+    padding: 16px 42px; font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; font-weight: 600; cursor: pointer;
+    transition: all 0.3s; background: transparent; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-stats {
+    position: absolute; bottom: 60px; left: 60px; right: 60px;
+    display: flex; gap: 60px; z-index: 2;
+    opacity: 0; animation: fadeUp 0.8s 1s ease forwards;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 40px;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 6px; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: var(--gold); line-height: 1; }
+  .stat-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--chrome); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION COMMON */
+  section { padding: 120px 60px; }
+  .section-tag {
+    font-size: 10px; letter-spacing: 6px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; display: flex; align-items: center; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    line-height: 0.95; letter-spacing: 1px; color: var(--white);
+    margin-bottom: 16px;
+  }
+  .section-title span { color: var(--gold); }
+
+  /* TYRE SIZES */
+  #sizes { background: var(--deep); position: relative; overflow: hidden; }
+  #sizes::before {
+    content: 'TYRES'; position: absolute;
+    font-family: 'Bebas Neue', sans-serif; font-size: 300px;
+    color: rgba(255,255,255,0.018); letter-spacing: 20px;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    white-space: nowrap; pointer-events: none;
+  }
+  .sizes-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 2px; margin-top: 70px;
+  }
+  .size-card {
+    background: var(--carbon); padding: 50px 30px;
+    text-align: center; position: relative; overflow: hidden;
+    transition: transform 0.4s, background 0.4s;
+    cursor: pointer;
+  }
+  .size-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(212,168,67,0.05) 100%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .size-card:hover { background: #1e1e1e; transform: translateY(-8px); }
+  .size-card:hover::before { opacity: 1; }
+  .size-card:hover .wheel-ring { border-color: var(--gold); transform: rotate(45deg) scale(1.05); }
+  .size-card:hover .size-num { color: var(--gold); }
+
+  .wheel-ring {
+    width: 110px; height: 110px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.12);
+    margin: 0 auto 28px; display: flex; align-items: center; justify-content: center;
+    transition: all 0.5s; position: relative;
+  }
+  .wheel-ring::before {
+    content: ''; position: absolute;
+    width: 60%; height: 60%; border-radius: 50%;
+    border: 1px solid rgba(212,168,67,0.2);
+  }
+  .wheel-ring::after {
+    content: ''; position: absolute;
+    width: 30%; height: 30%; border-radius: 50%;
+    background: rgba(212,168,67,0.1);
+  }
+  /* Spokes */
+  .spoke {
+    position: absolute; width: 1px; height: 42%; background: rgba(255,255,255,0.08);
+    top: 50%; left: 50%; transform-origin: bottom center;
+  }
+  .spoke:nth-child(1) { transform: translateX(-50%) rotate(0deg); }
+  .spoke:nth-child(2) { transform: translateX(-50%) rotate(45deg); }
+  .spoke:nth-child(3) { transform: translateX(-50%) rotate(90deg); }
+  .spoke:nth-child(4) { transform: translateX(-50%) rotate(135deg); }
+  .spoke:nth-child(5) { transform: translateX(-50%) rotate(180deg); }
+  .spoke:nth-child(6) { transform: translateX(-50%) rotate(225deg); }
+  .spoke:nth-child(7) { transform: translateX(-50%) rotate(270deg); }
+  .spoke:nth-child(8) { transform: translateX(-50%) rotate(315deg); }
+
+  .size-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 64px;
+    color: var(--white); line-height: 1; transition: color 0.4s;
+  }
+  .size-unit { font-size: 18px; color: var(--chrome); font-weight: 300; letter-spacing: 2px; }
+  .size-desc { font-size: 11px; color: rgba(200,200,200,0.5); margin-top: 16px; letter-spacing: 1px; }
+  .size-badge {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--gold); color: var(--black);
+    font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 10px; font-weight: 700;
+  }
+
+  /* SERVICES */
+  #services { background: var(--black); }
+  .services-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-top: 70px;
+  }
+  .service-block {
+    background: var(--carbon); padding: 60px 50px;
+    position: relative; overflow: hidden; transition: background 0.4s;
+  }
+  .service-block:hover { background: #1c1c1c; }
+  .service-block.featured {
+    background: var(--gold); color: var(--black);
+    grid-row: span 2;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .service-block.featured .service-title { color: var(--black); }
+  .service-block.featured .service-desc { color: rgba(0,0,0,0.65); }
+  .service-icon { font-size: 36px; margin-bottom: 32px; opacity: 0.8; }
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 30px; font-weight: 700; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 14px; text-transform: uppercase;
+  }
+  .service-desc { font-size: 14px; line-height: 1.7; color: var(--chrome); font-weight: 300; }
+  .service-num {
+    position: absolute; top: 30px; right: 40px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 80px;
+    color: rgba(255,255,255,0.04); line-height: 1;
+  }
+  .service-block.featured .service-num { color: rgba(0,0,0,0.08); }
+  .service-img-placeholder {
+    width: 100%; height: 240px;
+    background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+    border-radius: 2px; margin-bottom: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px; position: relative; overflow: hidden;
+  }
+  .service-img-placeholder::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(212,168,67,0.2), transparent);
+  }
+
+  /* WHY US */
+  #why { background: var(--deep); }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 40px; margin-top: 70px;
+  }
+  .why-item { padding: 40px 30px; border-top: 2px solid var(--steel); transition: border-color 0.4s; }
+  .why-item:hover { border-color: var(--gold); }
+  .why-icon { font-size: 28px; margin-bottom: 24px; }
+  .why-title {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 22px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .why-text { font-size: 13px; line-height: 1.7; color: var(--chrome); font-weight: 300; }
+
+  /* BRANDS */
+  #brands { background: var(--black); text-align: center; }
+  .brands-row {
+    display: flex; gap: 0; margin-top: 60px;
+    border-top: 1px solid var(--steel); border-bottom: 1px solid var(--steel);
+  }
+  .brand-item {
+    flex: 1; padding: 40px 20px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px;
+    letter-spacing: 4px; color: rgba(200,200,200,0.25);
+    border-right: 1px solid var(--steel); transition: color 0.4s;
+    cursor: default;
+  }
+  .brand-item:last-child { border-right: none; }
+  .brand-item:hover { color: var(--gold); }
+
+  /* CONTACT */
+  #contact {
+    background: var(--deep);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 0;
+  }
+  .contact-left {
+    background: var(--gold); padding: 100px 70px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-left .section-tag { color: var(--black); }
+  .contact-left .section-tag::before { background: var(--black); }
+  .contact-left .section-title { color: var(--black); }
+  .contact-info { margin-top: 40px; display: flex; flex-direction: column; gap: 28px; }
+  .info-item { display: flex; flex-direction: column; gap: 6px; }
+  .info-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: rgba(0,0,0,0.5); font-weight: 600; }
+  .info-value { font-size: 16px; color: var(--black); font-weight: 500; }
+  .contact-right { padding: 100px 70px; background: var(--carbon); }
+  .contact-right .section-tag { color: var(--gold); }
+  .form-group { margin-bottom: 28px; }
+  .form-group label { display: block; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--chrome); margin-bottom: 10px; font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white); padding: 14px 18px; font-family: 'Barlow', sans-serif;
+    font-size: 14px; outline: none; transition: border-color 0.3s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group select option { background: var(--carbon); }
+  .form-group textarea { height: 110px; resize: none; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); padding: 60px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo .brand { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 3px; }
+  .footer-logo .sub { font-size: 9px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
+  .footer-copy { font-size: 11px; color: rgba(200,200,200,0.3); letter-spacing: 1px; }
+  .footer-links { display: flex; gap: 30px; }
+  .footer-links a { font-size: 11px; color: rgba(200,200,200,0.3); text-decoration: none; letter-spacing: 1px; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RIBBON */
+  .ticker {
+    background: var(--gold); padding: 14px 0; overflow: hidden;
+    position: relative;
+  }
+  .ticker-inner {
+    display: flex; white-space: nowrap;
+    animation: ticker 25s linear infinite;
+  }
+  .ticker-item {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    font-weight: 700; color: var(--black); padding: 0 40px;
+    display: flex; align-items: center; gap: 40px;
+  }
+  .ticker-item::after { content: '◆'; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 24px; }
+    .hero-stats { left: 24px; right: 24px; gap: 30px; }
+    section { padding: 80px 24px; }
+    .sizes-grid { grid-template-columns: repeat(3, 1fr); }
+    .services-layout { grid-template-columns: 1fr; }
+    .service-block.featured { grid-row: auto; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    #contact { grid-template-columns: 1fr; }
+    .contact-left, .contact-right { padding: 60px 30px; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .wheel-bg { width: 400px; height: 400px; right: -150px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="brand">YASHRAJ</span>
+    <span class="sub">Tyres & Alloy Wheels</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#sizes">Tyre Sizes</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#brands">Brands</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Quote</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <!-- Animated Wheel Background -->
+  <svg class="wheel-bg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="195" stroke="white" stroke-width="2"/>
+    <circle cx="200" cy="200" r="160" stroke="white" stroke-width="1" stroke-dasharray="4 8"/>
+    <circle cx="200" cy="200" r="100" stroke="white" stroke-width="2"/>
+    <circle cx="200" cy="200" r="50" stroke="white" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="20" fill="white" opacity="0.3"/>
+    <!-- Spokes -->
+    <line x1="200" y1="5" x2="200" y2="150" stroke="white" stroke-width="3"/>
+    <line x1="200" y1="250" x2="200" y2="395" stroke="white" stroke-width="3"/>
+    <line x1="5" y1="200" x2="150" y2="200" stroke="white" stroke-width="3"/>
+    <line x1="250" y1="200" x2="395" y2="200" stroke="white" stroke-width="3"/>
+    <line x1="93" y1="93" x2="147" y2="147" stroke="white" stroke-width="3"/>
+    <line x1="253" y1="253" x2="307" y2="307" stroke="white" stroke-width="3"/>
+    <line x1="307" y1="93" x2="253" y2="147" stroke="white" stroke-width="3"/>
+    <line x1="147" y1="253" x2="93" y2="307" stroke="white" stroke-width="3"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Premium Performance Since 2005</div>
+    <h1 class="hero-title">GRIP THE<br><span>ROAD.</span><br>OWN IT.</h1>
+    <p class="hero-sub">Yashraj Tyres & Alloy Wheels — Latur's most trusted destination for premium rubber and precision-crafted alloy wheels across all vehicle types.</p>
+    <div class="hero-actions">
+      <a href="#sizes" class="btn-primary">Explore Sizes</a>
+      <a href="#contact" class="btn-outline">Get a Quote</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">3+</span>
+      <span class="stat-label">Years of Trust</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">2K+</span>
+      <span class="stat-label">Happy Customers</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">30+</span>
+      <span class="stat-label">Premium Brands</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">h5</span>
+      <span class="stat-label">Tyre Sizes</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Premium Tyres</span>
+    <span class="ticker-item">Alloy Wheels</span>
+    <span class="ticker-item">Wheel Alignment</span>
+    <span class="ticker-item">Tyre Balancing</span>
+    <span class="ticker-item">Nitrogen Filling</span>
+    <span class="ticker-item">14 to 18 Inch</span>
+    <span class="ticker-item">All Vehicle Types</span>
+    <span class="ticker-item">Premium Tyres</span>
+    <span class="ticker-item">Alloy Wheels</span>
+    <span class="ticker-item">Wheel Alignment</span>
+    <span class="ticker-item">Tyre Balancing</span>
+    <span class="ticker-item">Nitrogen Filling</span>
+    <span class="ticker-item">14 to 18 Inch</span>
+    <span class="ticker-item">All Vehicle Types</span>
+  </div>
+</div>
+
+<!-- TYRE SIZES -->
+<section id="sizes">
+  <div class="section-tag reveal">Tyre Size Range</div>
+  <h2 class="section-title reveal">FIND YOUR<br><span>PERFECT FIT</span></h2>
+  <div class="sizes-grid reveal">
+
+    <div class="size-card">
+      <div class="wheel-ring">
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+      </div>
+      <div class="size-num">14</div>
+      <div class="size-unit">INCH</div>
+      <div class="size-desc">Hatchbacks & Entry Sedans</div>
+    </div>
+
+    <div class="size-card">
+      <div class="size-badge">Popular</div>
+      <div class="wheel-ring">
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+      </div>
+      <div class="size-num">15</div>
+      <div class="size-unit">INCH</div>
+      <div class="size-desc">Sedans & Compact SUVs</div>
+    </div>
+
+    <div class="size-card">
+      <div class="size-badge">Best Seller</div>
+      <div class="wheel-ring">
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+      </div>
+      <div class="size-num">16</div>
+      <div class="size-unit">INCH</div>
+      <div class="size-desc">SUVs & Mid-range Saloons</div>
+    </div>
+
+    <div class="size-card">
+      <div class="wheel-ring">
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+      </div>
+      <div class="size-num">17</div>
+      <div class="size-unit">INCH</div>
+      <div class="size-desc">Sports & Premium SUVs</div>
+    </div>
+
+    <div class="size-card">
+      <div class="size-badge">Premium</div>
+      <div class="wheel-ring">
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+        <div class="spoke"></div><div class="spoke"></div><div class="spoke"></div><div class="spoke"></div>
+      </div>
+      <div class="size-num">18</div>
+      <div class="size-unit">INCH</div>
+      <div class="size-desc">Luxury & High-performance</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag reveal">What We Offer</div>
+  <h2 class="section-title reveal">PREMIUM<br><span>SERVICES</span></h2>
+  <div class="services-layout reveal">
+
+    <div class="service-block featured">
+      <div class="service-num">01</div>
+      <div class="service-img-placeholder">🛞</div>
+      <div class="service-title">Alloy Wheel Sales & Fitment</div>
+      <p class="service-desc">Hand-picked alloy wheels from the world's finest manufacturers. Precision fitment with computerised torque wrenches ensuring perfect balance every time.</p>
+    </div>
+
+    <div class="service-block">
+      <div class="service-num">02</div>
+      <div class="service-icon">⚖️</div>
+      <div class="service-title">Wheel Balancing</div>
+      <p class="service-desc">State-of-the-art dynamic balancing equipment eliminates vibration and uneven wear, maximising tyre life and driving comfort.</p>
+    </div>
+
+    <div class="service-block">
+      <div class="service-num">03</div>
+      <div class="service-icon">📐</div>
+      <div class="service-title">3D Wheel Alignment</div>
+      <p class="service-desc">Computer-aided 3D alignment ensures your wheels are perfectly set, reducing drag, saving fuel and increasing tyre lifespan significantly.</p>
+    </div>
+
+    <div class="service-block">
+      <div class="service-num">04</div>
+      <div class="service-icon">💨</div>
+      <div class="service-title">Nitrogen Tyre Inflation</div>
+      <p class="service-desc">Nitrogen stays stable longer than air, providing consistent tyre pressure — improving mileage, safety and tyre longevity.</p>
+    </div>
+
+    <div class="service-block">
+      <div class="service-num">05</div>
+      <div class="service-icon">🔧</div>
+      <div class="service-title">Puncture Repair & Care</div>
+      <p class="service-desc">Fast, professional puncture repairs using premium plugs and patches. We also offer rotation, retreading advisory and seasonal tyre swaps.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-tag reveal">Our Promise</div>
+  <h2 class="section-title reveal">WHY CHOOSE<br><span>YASHRAJ</span></h2>
+  <div class="why-grid reveal">
+    <div class="why-item">
+      <div class="why-icon">🏆</div>
+      <div class="why-title">20+ Years Experience</div>
+      <p class="why-text">Two decades of serving Pimpri's drivers with unmatched expertise in tyres and alloy wheels.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🔬</div>
+      <div class="why-title">Precision Equipment</div>
+      <p class="why-text">Computerised balancers, 3D aligners and torque wrenches — tools that match the quality of your vehicle.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">💯</div>
+      <div class="why-title">Genuine Products</div>
+      <p class="why-text">100% authentic tyres and alloy wheels from authorised distributors. No counterfeits, ever.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">⚡</div>
+      <div class="why-title">Fast Turnaround</div>
+      <p class="why-text">Efficient service that respects your time. Most fitments and alignments completed within the hour.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section id="brands">
+  <div class="section-tag reveal" style="justify-content:center">Trusted Brands</div>
+  <h2 class="section-title reveal" style="text-align:center">WE STOCK<br><span>THE BEST</span></h2>
+  <div class="brands-row reveal">
+    <div class="brand-item">Apollo</div>
+    <div class="brand-item">CEAT</div>
+    <div class="brand-item">Bridgestone</div>
+     <div class="brand-item">Michelin</div>
+   <!-- <div class="brand-item">Goodyear</div>
+   <div class="brand-item">MRF</div>
+    <div class="brand-item">Yokohama</div> -->
+    <div class="brand-item">Continental</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left">
+    <div class="section-tag">Visit Us</div>
+    <h2 class="section-title" style="font-size:clamp(36px,4vw,60px)">LET'S FIND YOUR<br>PERFECT WHEEL</h2>
+    <div class="contact-info">
+      <div class="info-item">
+        <span class="info-label">Address</span>
+        <span class="info-value">Plot No-16, Sidheshwar Nagar, Ring Road <br>Latur-413512 </span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Phone</span>
+        <span class="info-value">+91 8408898883</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Hours</span>
+        <span class="info-value">Mon – Sat: 10:00 AM – 9:00 PM<br>Sunday: 10:00 AM – 5:00 PM</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Email</span>
+        <span class="info-value">info@yashrajtyres.com</span>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right">
+    <div class="section-tag">Quick Enquiry</div>
+    <h2 class="section-title" style="font-size:clamp(32px,3vw,50px)">GET A<br><span>FREE QUOTE</span></h2>
+    <br>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" placeholder="Full Name">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91 XXXXX XXXXX">
+      </div>
+      <div class="form-group">
+        <label>Vehicle Type</label>
+        <select>
+          <option>Hatchback</option>
+          <option>Sedan</option>
+          <option>SUV / MUV</option>
+          <option>Luxury Car</option>
+          <option>Commercial</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tyre Size Required</label>
+      <select>
+        <option>14 Inch</option>
+        <option>15 Inch</option>
+        <option>16 Inch</option>
+        <option>17 Inch</option>
+        <option>18 Inch</option>
+        <option>Not Sure – Need Advice</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Message / Requirements</label>
+      <textarea placeholder="Tell us about your requirements..."></textarea>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:18px;font-size:12px;" onclick="alert('Thank you! We will contact you shortly.')">Send Enquiry →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="brand">YASHRAJ</div>
+    <div class="sub">Tyres & Alloy Wheels</div>
+  </div>
+  <p class="footer-copy">© 2026 Yashraj Tyres & Alloy Wheels. All rights reserved. Latur-413512.</p>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#sizes">Sizes</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+  function animateRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateRing); }
+  animateRing();
+  document.querySelectorAll('a, button, .size-card, .brand-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; ring.style.width = '56px'; ring.style.height = '56px'; });
+    el.addEventListener('mouseleave', () => { cursor.style.width = '12px'; cursor.style.height = '12px'; ring.style.width = '36px'; ring.style.height = '36px'; });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Smooth active nav
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : ''; });
+  });
+</script>
+</body>
+</html>
